@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPL Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <header class="admin-header">
+            <h1>SPL Admin Panel</h1>
+            <p class="subtitle">Steps Premier League - Daily Operations Dashboard</p>
+            <div id="dbStatus" class="db-status" style="display: none;">
+                <span class="db-status-indicator"></span>
+                <span class="db-status-text">Checking database connection...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Upload Daily Steps File</h2>
+                        <p class="card-description">Upload the daily Excel file (.xlsx) to process steps data and update leaderboards</p>
+                    </div>
+                    <div class="card-body">
+                        <form id="uploadForm" class="upload-form">
+                            <div class="file-input-wrapper">
+                                <label for="excelFile" class="file-label">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    <span id="fileLabelText">Choose Excel file (.xlsx)</span>
+                                </label>
+                                <input 
+                                    type="file" 
+                                    id="excelFile" 
+                                    name="file" 
+                                    accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                    class="file-input"
+                                    required
+                                >
+                            </div>
+                            <div id="fileName" class="file-name"></div>
+                            <button type="submit" class="upload-btn" id="uploadBtn">
+                                <span class="btn-text">Upload & Process</span>
+                                <span class="btn-loader" id="btnLoader" style="display: none;"></span>
+                            </button>
+                        </form>
+                        <div id="statusMessage" class="status-message"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Uploaded Files History Section -->
+            <section class="history-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Uploaded Files History</h2>
+                        <button class="refresh-btn" id="refreshUploadsBtn" title="Refresh history">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <polyline points="1 20 1 14 7 14"></polyline>
+                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table id="uploadsTable" class="history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Filename</th>
+                                        <th>Status</th>
+                                        <th>Records</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="uploadsTableBody">
+                                    <tr class="loading-row">
+                                        <td colspan="4" class="loading-cell">Loading upload history...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Raw Daily Data Viewer Section -->
+            <section class="data-viewer-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Raw Daily Data Viewer</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="date-selector">
+                            <label for="stepsDateSelect">Select Date (Any date allowed for testing):</label>
+                            <input type="date" id="stepsDateSelect" class="date-input" min="" max="">
+                            <button class="load-btn" id="loadStepsBtn">Load Data</button>
+                        </div>
+                        <div class="table-wrapper">
+                            <table id="stepsTable" class="history-table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Steps</th>
+                                        <th>Runs</th>
+                                        <th>Team</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stepsTableBody">
+                                    <tr>
+                                        <td colspan="4" class="empty-cell">Select a date and click "Load Data"</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leaderboard Preview + Publish Section -->
+            <section class="leaderboard-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Leaderboard Preview + Publish</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="date-selector">
+                            <label for="leaderboardDateSelect">Select Date (Any date allowed for testing):</label>
+                            <input type="date" id="leaderboardDateSelect" class="date-input" min="" max="">
+                            <button class="load-btn" id="loadLeaderboardBtn">Preview Leaderboard</button>
+                        </div>
+                        
+                        <div id="leaderboardPreview" style="display: none;">
+                            <!-- Team Leaderboard -->
+                            <div class="leaderboard-group">
+                                <h3>Team Leaderboard</h3>
+                                <div class="table-wrapper">
+                                    <table id="teamLeaderboardTable" class="history-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Rank</th>
+                                                <th>Team</th>
+                                                <th>Total Steps</th>
+                                                <th>Total Runs</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="teamLeaderboardBody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Individual Leaderboard -->
+                            <div class="leaderboard-group">
+                                <h3>Individual Leaderboard</h3>
+                                <div class="table-wrapper">
+                                    <table id="individualLeaderboardTable" class="history-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Rank</th>
+                                                <th>User</th>
+                                                <th>Steps</th>
+                                                <th>Runs</th>
+                                                <th>Team</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="individualLeaderboardBody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="publish-section">
+                                <button class="publish-btn" id="publishBtn">
+                                    Publish Leaderboard
+                                </button>
+                                <div id="publishStatus" class="status-message"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="admin-footer">
+            <p>© SPL Admin Console - Steps Premier League</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <!-- Iframe Auto-Resize Script -->
+    <script>
+        (function() {
+            function sendHeight() {
+                const height = document.documentElement.scrollHeight;
+                if (window.parent && window.parent !== window) {
+                    parent.postMessage({ type: "setHeight", height: height }, "*");
+                }
+            }
+            
+            // Send height on load
+            if (document.readyState === 'loading') {
+                window.addEventListener("load", sendHeight);
+            } else {
+                sendHeight();
+            }
+            
+            // Send height on resize
+            window.addEventListener("resize", sendHeight);
+            
+            // Observe body changes for dynamic content
+            if (window.ResizeObserver) {
+                const resizeObserver = new ResizeObserver(sendHeight);
+                resizeObserver.observe(document.body);
+                
+                // Also observe the main container
+                const mainContainer = document.querySelector('.admin-container');
+                if (mainContainer) {
+                    resizeObserver.observe(mainContainer);
+                }
+            }
+            
+            // Send height after a short delay to catch async content
+            setTimeout(sendHeight, 500);
+            setTimeout(sendHeight, 1000);
+        })();
+    </script>
+</body>
+</html>
+

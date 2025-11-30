@@ -1,0 +1,15 @@
+{
+  "name": "spl-main",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npm run start:backend",
+    "start:backend": "cd \"SPL-main/SPL Backend\" && npm start",
+    "seed:teams": "node prisma/seed-teams.js",
+    "seed:users": "node prisma/seed-users.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.0.1",
+    "@prisma/config": "^7.0.1",
+    "prisma": "^7.0.1"
+  }
+}
