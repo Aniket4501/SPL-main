@@ -1,0 +1,13 @@
+{
+  "services": [
+    {
+      "type": "web",
+      "name": "spl-backend",
+      "env": "node",
+      "rootDir": "spl-backend",
+      "buildCommand": "npm install",
+      "startCommand": "npm start"
+    }
+  ]
+}
+

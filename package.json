@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npm run start:backend",
-    "start:backend": "cd \"SPL-main/SPL Backend\" && npm start",
+    "start:backend": "cd spl-backend && npm start",
     "seed:teams": "node prisma/seed-teams.js",
     "seed:users": "node prisma/seed-users.js"
   },
