@@ -2220,6 +2220,23 @@
             border-color: var(--primary-mint);
             color: var(--primary-mint);
         }
+.day-pulse-glow {
+    animation: pulse-glow 1.5s infinite ease-in-out;
+    border: 2px solid #ffc107;
+    box-shadow: 0 0 10px #ffc107;
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255, 193, 7, 1);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.7);
+    }
+}
 
         .day-btn.current {
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-mint));
@@ -5060,7 +5077,8 @@ document.querySelectorAll('.team-toggle').forEach(btn => {
                 <button class="day-btn" id="commentary-tab-overall" data-day="overall">
                     <span class="day-number">Overall</span>
                 </button>
-                <button class="day-btn active day1-glow" id="commentary-tab-1" data-day="1">
+                       
+                <button class="day-btn day-pulse-glow" id="commentary-tab-1" data-day="1">
                     <span class="day-number">Day 1</span>
                 </button>
                 <button class="day-btn" id="commentary-tab-2" data-day="2">
