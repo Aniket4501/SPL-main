@@ -1,0 +1,7 @@
+{
+  "routes": [
+    { "src": "/admin", "dest": "/admin-panel/spl_admin.html" },
+    { "src": "/admin-panel", "dest": "/admin-panel/spl_admin.html" },
+    { "src": "/spl-admin", "dest": "/admin-panel/spl_admin.html" }
+  ]
+}
