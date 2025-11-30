@@ -11,13 +11,36 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+// CORS - Allow all origins (update with specific frontend URL in production if needed)
+app.use(cors({
+  origin: '*', // Allow all origins - update with specific frontend domain for production
+  credentials: false,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+// Root endpoint - API info
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'SPL Backend API',
+    version: '1.0.0',
+    health: '/health',
+    api: '/api',
+    endpoints: {
+      health: '/health',
+      leaderboard: '/api/leaderboard',
+      upload: '/api/upload',
+      admin: '/api/admin'
+    }
+  });
+});
 
 // Health check endpoint
 app.get('/health', async (req, res) => {

@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:4000/api';
+const API_BASE_URL = 'https://spl-main.onrender.com/api';
 const UPLOAD_ENDPOINT = `${API_BASE_URL}/upload/admin/upload`;
 const ADMIN_UPLOADS_ENDPOINT = `${API_BASE_URL}/admin/uploads`;
 const ADMIN_STEPS_ENDPOINT = `${API_BASE_URL}/admin/steps`;
@@ -84,7 +84,7 @@ async function checkDatabaseConnection() {
     dbStatusText.textContent = 'Checking database connection...';
     
     try {
-        const response = await fetch('http://localhost:4000/health');
+        const response = await fetch('https://spl-main.onrender.com/health');
         const data = await response.json();
         
         if (data.database === 'connected') {
@@ -96,7 +96,7 @@ async function checkDatabaseConnection() {
         }
     } catch (error) {
         dbStatus.className = 'db-status disconnected';
-        dbStatusText.textContent = '✗ Cannot reach server - Make sure backend is running on port 4000';
+            dbStatusText.textContent = '✗ Cannot reach server - Make sure backend is running';
     }
 }
 
