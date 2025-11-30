@@ -57,6 +57,10 @@ app.use((req, res) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
 // Error handler
 app.use((err, req, res, next) => {
   console.error('Error:', err);
