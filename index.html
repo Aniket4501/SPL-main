@@ -2316,6 +2316,23 @@
             border-color: var(--primary-mint);
             color: var(--primary-mint);
         }
+.day-pulse-glow {
+    animation: pulse-glow 1.5s infinite ease-in-out;
+    border: 2px solid #ffc107;
+    box-shadow: 0 0 10px #ffc107;
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255, 193, 7, 1);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.7);
+    }
+}
 
         .day-btn.current {
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-mint));
@@ -4783,8 +4800,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="score-icon-wrapper">
                             <div class="score-emoji">⚡</div>
                         </div>
-                        <div class="score-value">1</div>
-                        <div class="score-type">Single</div>
+                        <div class="score-value">2</div>
+                        <div class="score-type">Double</div>
                         <div class="score-steps">5,001-10,000 steps</div>
                     </div>
                     
@@ -5004,7 +5021,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p class="team-motto">Medical Excellence</p>
                         </div>
                     </div>
-                    <div class="team-stats"><div class="team-stat-value">8</div><div class="team-stat-label">Players</div></div>
+                    <div class="team-stats"><div class="team-stat-value">7</div><div class="team-stat-label">Players</div></div>
                     <div class="team-arrow" id="team-medex-chargers-arrow">⌄</div>
                 </div>
                 <div class="team-table-body" id="team-medex-chargers-body">
@@ -5178,16 +5195,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <!-- Day Selection Buttons -->
             <div class="day-selector">
-                <button class="day-btn active day0-glow" id="commentary-tab-overall" data-day="overall">
+                <button class="day-btn" id="commentary-tab-overall" data-day="overall">
                     <span class="day-number">Overall</span>
                 </button>
+                       
                 <button class="day-btn" id="commentary-tab-1" data-day="1">
                     <span class="day-number">Day 1</span>
                 </button>
                 <button class="day-btn" id="commentary-tab-2" data-day="2">
                     <span class="day-number">Day 2</span>
                 </button>
-                <button class="day-btn power-play" id="commentary-tab-3" data-day="3">
+                <button class="day-btn day-pulse-glow power-play" id="commentary-tab-3" data-day="3">
                     <span class="day-number">Day 3</span>
                     <span class="power-play-icon">⚡</span>
                 </button>
@@ -5211,22 +5229,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="commentator-content">
                     <!-- Overall Commentary -->
                     <div class="commentary-day day-overall active" id="commentary-day-overall-content">
-                        <div class="commentary-item">
-                            <span class="score-badge update">🏏</span>
+                         <div class="commentary-item">
+                            <span class="score-badge update">⚡</span>
                             <p class="commentary-text">
-                                <strong>Welcome to SPL 2025!</strong> The overall championship is underway.
+                                <strong>HR Legends</strong> take the lead Consistent, steady, and clearly in sync - the Legends climb to Rank 1 with a solid 168 runs.
                             </p>
                         </div>
                         <div class="commentary-item">
-                            <span class="score-badge">👥</span>
+                            <span class="score-badge">🏏</span>
                             <p class="commentary-text">
-                                All 8 teams are competing for the ultimate glory.
+                                <strong>Care Plan Warriors close behind</strong> The Warriors aren’t letting go. With the highest step count so far at 378,034, they're just 2 runs short of the top spot.
                             </p>
                         </div>
                         <div class="commentary-item">
-                            <span class="score-badge">🏆</span>
+                            <span class="score-badge">🔥</span>
                             <p class="commentary-text">
-                                Track your team's progress and individual rankings here!
+                                Mid-table battle heats up MedEx Chargers and Prod United are fighting hard for momentum. 
                             </p>
                         </div>
                     </div>
@@ -5234,21 +5252,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     <!-- Day 1 Commentary -->
                     <div class="commentary-day day-1">
                         <div class="commentary-item">
-                            <span class="score-badge update">📢</span>
+                            <span class="score-badge update">⚡</span>
                             <p class="commentary-text">
-                                <strong>Day 1 kicks off!</strong> The SPL Championship has officially begun. All teams are ready and raring to go!
+                                <strong>Care Plan Warriors</strong> have stormed out of the dressing room, topping the charts with 32 runs!! They clearly came to play!
                             </p>
                         </div>
                         <div class="commentary-item">
                             <span class="score-badge">🏏</span>
                             <p class="commentary-text">
-                                <strong>Team 1 takes an early lead</strong> with impressive step counts across all players. Great start to the championship!
+                                <strong>MedEx Chargers, HR Legends, and Finance Super Strikers</strong> are right on their heels. One good swing and the table could flip tomorrow.
                             </p>
                         </div>
                         <div class="commentary-item">
                             <span class="score-badge">🔥</span>
                             <p class="commentary-text">
-                                Strong performances from multiple players as they set the pace for the week ahead.
+                                Day 2 loading… Lace up, charge your trackers, and let’s see who climbs (or tumbles 👀) on the leaderboard next!
                             </p>
                         </div>
                     </div>
