@@ -792,6 +792,9 @@
             flex-direction: column;
             gap: 16px;
             width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         .team-table-card {
@@ -801,6 +804,7 @@
             box-shadow: var(--shadow-lg);
             transition: all 0.3s ease;
             width: 100%;
+            max-width: 100%;
             box-sizing: border-box;
         }
 
@@ -853,35 +857,38 @@
             font-weight: 700;
             margin-left: auto;
             cursor: pointer;
-            transition: transform 0.25s ease, opacity 0.2s ease;
+            transition: transform 0.3s ease, opacity 0.2s ease;
             flex-shrink: 0;
             min-width: 24px;
             text-align: center;
+            user-select: none;
         }
 
         .team-arrow:hover {
             opacity: 0.8;
         }
 
+        .team-arrow.open {
+            transform: rotate(180deg);
+        }
+
         .team-table-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out;
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .team-table-body.open {
-            max-height: 2000px;
-        }
-
-        .team-table-body {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            display: block;
         }
 
         .team-table-body .team-table {
             padding: 12px 16px;
             width: 100%;
-            min-width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            table-layout: fixed;
         }
 
         .team-table tbody tr {
@@ -986,6 +993,12 @@
 
             .team-table-body .team-table {
                 padding: 8px 12px;
+                overflow-x: hidden;
+            }
+            
+            .team-table-body {
+                overflow-x: hidden;
+                width: 100%;
             }
 
             .player-cell {
@@ -1070,6 +1083,12 @@
 
             .team-table-body .team-table {
                 padding: 6px 10px;
+                overflow-x: hidden;
+            }
+            
+            .team-table-body {
+                overflow-x: hidden;
+                width: 100%;
             }
 
             .player-cell {
@@ -1259,21 +1278,6 @@
             color: var(--text-primary);
         }
 
-.team-toggle {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.team-toggle.open {
-    transform: rotate(180deg);
-}
-
-.team-details {
-    display: none; /* Keeps members hidden initially */
-}
 
 
  
@@ -1704,8 +1708,14 @@
             padding: 12px 24px;
             line-height: 1.2;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        }
+        
+        /* Steps column - allow full number display without truncation */
+        .leaderboard-content.individual .leaderboard-table td:nth-child(5) {
+            overflow: visible;
+            text-overflow: clip;
+            white-space: nowrap;
+            min-width: 80px;
         }
         
         .leaderboard-content.individual .leaderboard-table tbody tr {
@@ -1796,13 +1806,23 @@
         }
         
         .leaderboard-content.individual .leaderboard-table th:nth-child(4),
-        .leaderboard-content.individual .leaderboard-table td:nth-child(4),
+        .leaderboard-content.individual .leaderboard-table td:nth-child(4) {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 11% !important;
+            white-space: nowrap;
+        }
+        
+        /* Steps column - ensure full number display */
         .leaderboard-content.individual .leaderboard-table th:nth-child(5),
         .leaderboard-content.individual .leaderboard-table td:nth-child(5) {
             vertical-align: middle !important;
             text-align: center;
             width: 11% !important;
             white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+            min-width: 90px;
         }
         
         /* Ensure player-rows tables also have proper alignment */
@@ -1824,9 +1844,15 @@
             padding: 12px 24px;
             line-height: 1.2;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
             margin: 0;
+        }
+        
+        /* Steps column in player-rows - allow full number display */
+        .leaderboard-content.individual .player-rows td:nth-child(5) {
+            overflow: visible;
+            text-overflow: clip;
+            white-space: nowrap;
+            min-width: 80px;
         }
         
         .leaderboard-content.individual .player-rows td > * {
@@ -1859,12 +1885,22 @@
             min-width: 0;
         }
         
-        .leaderboard-content.individual .player-rows td:nth-child(4),
+        .leaderboard-content.individual .player-rows td:nth-child(4) {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 11% !important;
+            white-space: nowrap;
+        }
+        
+        /* Steps column in player-rows - ensure full number display */
         .leaderboard-content.individual .player-rows td:nth-child(5) {
             vertical-align: middle !important;
             text-align: center;
             width: 11% !important;
             white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+            min-width: 90px;
         }
         
         .leaderboard-content.individual .player-rows .player-cell {
@@ -1944,43 +1980,103 @@
                 font-size: 13px;
             }
             
+            /* Individual Leaderboard - Mobile Responsive (No Horizontal Scroll) */
             .leaderboard-content.individual .table-wrapper {
-                overflow-x: auto;
+                overflow-x: hidden;
                 width: 100%;
-                -webkit-overflow-scrolling: touch;
+                max-width: 100%;
+                box-sizing: border-box;
             }
             
             .leaderboard-content.individual .leaderboard-table {
-                min-width: 600px;
-                display: table;
+                width: 100%;
+                max-width: 100%;
+                table-layout: fixed;
+                font-size: 13px;
+                box-sizing: border-box;
             }
             
             .leaderboard-content.individual .player-rows {
-                min-width: 600px;
-                display: table;
+                width: 100%;
+                max-width: 100%;
+                table-layout: fixed;
             }
             
-            .leaderboard-content.individual .team-badge {
-                white-space: nowrap !important;
-                min-width: fit-content;
-                flex-shrink: 0;
-                display: inline-flex !important;
-                align-items: center;
+            /* Column widths for mobile - optimized for 5 columns */
+            .leaderboard-content.individual .leaderboard-table th,
+            .leaderboard-content.individual .leaderboard-table td,
+            .leaderboard-content.individual .player-rows td {
+                padding: 8px 4px;
+                font-size: 12px;
+                box-sizing: border-box;
             }
             
+            /* Rank column */
+            .leaderboard-content.individual .leaderboard-table th:nth-child(1),
+            .leaderboard-content.individual .leaderboard-table td:nth-child(1),
+            .leaderboard-content.individual .player-rows td:nth-child(1) {
+                width: 8% !important;
+                text-align: center;
+                padding: 8px 2px;
+            }
+            
+            /* Player column */
+            .leaderboard-content.individual .leaderboard-table th:nth-child(2),
+            .leaderboard-content.individual .leaderboard-table td:nth-child(2),
+            .leaderboard-content.individual .player-rows td:nth-child(2) {
+                width: 32% !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            /* Team column - hide on mobile to save space */
+            .leaderboard-content.individual .leaderboard-table th:nth-child(3),
             .leaderboard-content.individual .leaderboard-table td:nth-child(3),
             .leaderboard-content.individual .player-rows td:nth-child(3) {
-                white-space: nowrap !important;
-                overflow: visible !important;
-                word-break: keep-all !important;
-                word-wrap: normal !important;
+                display: none !important;
             }
             
-            .leaderboard-content.individual .team-badge {
-                white-space: nowrap !important;
-                word-break: keep-all !important;
-                word-wrap: normal !important;
-                overflow-wrap: normal !important;
+            /* Runs column */
+            .leaderboard-content.individual .leaderboard-table th:nth-child(4),
+            .leaderboard-content.individual .leaderboard-table td:nth-child(4),
+            .leaderboard-content.individual .player-rows td:nth-child(4) {
+                width: 20% !important;
+                text-align: center;
+                white-space: nowrap;
+                padding: 8px 4px;
+            }
+            
+            /* Steps column - ensure full number display */
+            .leaderboard-content.individual .leaderboard-table th:nth-child(5),
+            .leaderboard-content.individual .leaderboard-table td:nth-child(5),
+            .leaderboard-content.individual .player-rows td:nth-child(5) {
+                width: 40% !important;
+                text-align: center;
+                white-space: nowrap;
+                overflow: visible;
+                text-overflow: clip;
+                padding: 8px 6px;
+                font-weight: 600;
+                font-size: 13px;
+            }
+            
+            .leaderboard-content.individual .player-cell {
+                gap: 6px;
+            }
+            
+            .leaderboard-content.individual .player-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 11px;
+            }
+            
+            .leaderboard-content.individual .player-name {
+                font-size: 12px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 70px;
             }
         }
 
@@ -3167,17 +3263,60 @@
                 padding: 12px;
             }
 
-            /* Hide less important columns on mobile */
-            /* For Team Standings: hide 3rd column (Overs) */
-            .leaderboard-content.team .leaderboard-table th:nth-child(3),
-            .leaderboard-content.team .leaderboard-table td:nth-child(3) {
-                display: none;
+            /* Team Standings - Ensure all 4 columns are visible: Rank, Team, Runs, Steps */
+            .leaderboard-content.team .table-wrapper {
+                overflow-x: auto;
+                width: 100%;
+                -webkit-overflow-scrolling: touch;
             }
             
-            /* For Individual Rankings: don't hide Team column */
-            .leaderboard-content.individual .leaderboard-table th:nth-child(3),
-            .leaderboard-content.individual .leaderboard-table td:nth-child(3) {
-                display: table-cell !important;
+            .leaderboard-content.team .leaderboard-table {
+                min-width: 500px;
+                font-size: 14px;
+            }
+            
+            .leaderboard-content.team .leaderboard-table th,
+            .leaderboard-content.team .leaderboard-table td {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+            
+            /* Individual Rankings - Extra Small Mobile */
+            .leaderboard-content.individual .table-wrapper {
+                overflow-x: hidden;
+                max-width: 100%;
+            }
+            
+            .leaderboard-content.individual .leaderboard-table,
+            .leaderboard-content.individual .player-rows {
+                width: 100%;
+                max-width: 100%;
+                table-layout: fixed;
+            }
+            
+            .leaderboard-content.individual .leaderboard-table th,
+            .leaderboard-content.individual .leaderboard-table td,
+            .leaderboard-content.individual .player-rows td {
+                padding: 6px 3px;
+                font-size: 11px;
+            }
+            
+            /* Steps column - larger font for visibility */
+            .leaderboard-content.individual .leaderboard-table td:nth-child(5),
+            .leaderboard-content.individual .player-rows td:nth-child(5) {
+                font-size: 12px;
+                font-weight: 600;
+            }
+            
+            .leaderboard-content.individual .player-avatar {
+                width: 24px;
+                height: 24px;
+                font-size: 10px;
+            }
+            
+            .leaderboard-content.individual .player-name {
+                font-size: 11px;
+                max-width: 55px;
             }
             
             /* Placeholder Leaderboard Mobile Responsive */
@@ -3901,8 +4040,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        const label = type === 'overall' ? 'Total Runs' : 'Total Runs';
-        const stepsLabel = type === 'overall' ? 'Total Steps' : 'Total Steps';
+        const label = type === 'overall' ? 'Total Runs' : 'Runs';
+        const stepsLabel = type === 'overall' ? 'Total Steps' : 'Steps';
         
         let html = `
             <div class="table-wrapper">
@@ -3911,8 +4050,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <tr>
                         <th>Rank</th>
                         <th>Team</th>
-                            <th>${label}</th>
-                            <th>${stepsLabel}</th>
+                        <th>${label}</th>
+                        <th>${stepsLabel}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -3923,8 +4062,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <tr>
                     <td>${team.rank}</td>
                     <td><strong>${team.team_name}</strong></td>
-                    <td><strong>${team.total_runs || team.runs || 0}</strong></td>
-                    <td>${team.total_steps || team.steps || 0}</td>
+                    <td><strong>${(team.total_runs || team.runs || 0).toLocaleString()}</strong></td>
+                    <td>${(team.total_steps || team.steps || 0).toLocaleString()}</td>
                 </tr>
             `;
         });
@@ -3987,8 +4126,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </td>
                     <td><span class="team-badge">${player.team_name || 'Unknown'}</span></td>
-                    <td>${player.runs || 0}</td>
-                    <td>${player.steps || 0}</td>
+                    <td>${(player.runs || 0).toLocaleString()}</td>
+                    <td>${(player.steps || 0).toLocaleString()}</td>
                         </tr>
                     `;
                 });
@@ -4159,8 +4298,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </td>
                     <td><span class="team-badge">${player.team_name || 'Unknown'}</span></td>
-                    <td>${player.runs || 0}</td>
-                    <td>${player.steps || 0}</td>
+                    <td>${(player.runs || 0).toLocaleString()}</td>
+                    <td>${(player.steps || 0).toLocaleString()}</td>
                 </tr>
             `;
         });
@@ -4382,33 +4521,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==================================================================
-    // Teams Section - Dropdown Toggle Functionality
+    // Championship Squad - Dropdown Toggle Functionality
     // ==================================================================
     window.toggleTeam = function(teamId) {
-        const section = document.getElementById(`team-${teamId}-body`);
+        const body = document.getElementById(`team-${teamId}-body`);
         const arrow = document.getElementById(`team-${teamId}-arrow`);
-        const isOpen = section.classList.contains("open");
-
-        if (isOpen) {
-            section.classList.remove("open");
-            section.style.maxHeight = "0px";
-            if (arrow) arrow.textContent = "⌄";
-        } else {
-            // Close all other teams first
-            document.querySelectorAll('.team-table-body.open').forEach(otherSection => {
-                if (otherSection !== section) {
-                    otherSection.classList.remove("open");
-                    otherSection.style.maxHeight = "0px";
-                    const otherId = otherSection.id.replace('team-', '').replace('-body', '');
-                    const otherArrow = document.getElementById(`team-${otherId}-arrow`);
-                    if (otherArrow) otherArrow.textContent = "⌄";
-                }
-            });
-            
-            section.classList.add("open");
-            section.style.maxHeight = section.scrollHeight + "px";
-            if (arrow) arrow.textContent = "⌃";
+        
+        if (!body || !arrow) {
+            console.warn(`⚠️ Could not find elements for team: ${teamId}`);
+            return;
         }
+        
+        const isOpen = body.style.display === "block";
+        
+        // Toggle display
+        body.style.display = isOpen ? "none" : "block";
+        
+        // Toggle arrow class for rotation
+        arrow.classList.toggle("open", !isOpen);
+        
+        // Update arrow text
+        arrow.textContent = isOpen ? "⌄" : "⌃";
+        
+        console.log(`🔄 Team ${teamId}: ${isOpen ? 'Collapsed' : 'Expanded'}`);
     };
 });
     </script>
@@ -4979,20 +5114,6 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </section>
 
-    <script>
-document.querySelectorAll('.team-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const details = btn.closest('.team-table-card')
-                          .querySelector('.team-details');
-
-        details.style.display = details.style.display === "none" 
-                                ? "block" 
-                                : "none";
-
-        btn.classList.toggle('open');
-    });
-});
-</script>
 
 
    <!-- Leaderboard Section -->
